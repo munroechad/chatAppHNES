@@ -27,6 +27,10 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'authentication', 'login.html'));
 });
 
+app.get('/reset', (req, res) => {
+    res.sendFile(path.join(__dirname, 'authentication', 'reset.html'));
+});
+
 // Define other routes for signup, reset password, etc.
 
 // Handle form submissions (example)
