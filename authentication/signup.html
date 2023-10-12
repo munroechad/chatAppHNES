@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    
+    <link rel="stylesheet" href="/styles/bootstrap.min.css">
+
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Sign Up</h1>
+
+
+        <div id="responseContainer" class="mb-3"></div>
+
+        <form id="signupForm" hx-post="/signup" hx-swap="outerHTML" hx-target="#responseContainer" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+    </div>
+    <script>
+ (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+
+            // Check username availability on input change
+            const usernameInput = document.getElementById('email');
+            usernameInput.addEventListener('input', function () {
+                const username = usernameInput.value.toString();
+                if (username) {
+                    // Make an htmx request to check if the username exists
+                    htmx.ajax('POST', '/checkUsername', {
+                        target: '#responseContainer',
+                        swap: 'none',
+                        values: { username },
+                    }).then((response) => {
+                        if (response === 'Username already exists') {
+                            // Username is already taken, so set a custom validity message
+                            usernameInput.setCustomValidity('Username already exists');
+                        } else {
+                            // Username is available, so clear any custom validity message
+                            usernameInput.setCustomValidity('');
+                        }
+
+                        // You can also perform additional actions here if needed
+                    });
+
+                }
+            });
+        })()
+    </script>
+    <script src="/htmx.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+</body>
+</html>
