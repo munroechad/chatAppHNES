@@ -51,16 +51,21 @@
             const usernameInput = document.getElementById('email');
             usernameInput.addEventListener('input', function () {
                 const username = usernameInput.value.toString();
+                var res = "";
                 if (username) {
                     // Make an htmx request to check if the username exists
                     htmx.ajax('POST', '/checkUsername', {
                         target: '#responseContainer',
-                        swap: 'none',
+                        swap: 'innerHTML',
                         values: { username },
+                       
                     }).then((response) => {
+                        res = response.toString()
+                        console.log(res)
                         if (response === 'Username already exists') {
                             // Username is already taken, so set a custom validity message
                             usernameInput.setCustomValidity('Username already exists');
+                            usernameInput.classList.add('is-invalid')
                         } else {
                             // Username is available, so clear any custom validity message
                             usernameInput.setCustomValidity('');
