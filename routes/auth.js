@@ -16,7 +16,9 @@ router.get('/signup', (req, res) => {
     res.sendFile(path.join(__dirname, '../authentication', 'signup.html'));
 });
 
-
+router.get('/reset/'+token, (req, res) => {
+    res.sendFile(path.join(__dirname, '../authentication', 'signup.html'));
+});
 
 
 module.exports = router;

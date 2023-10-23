@@ -15,7 +15,7 @@
     <div class="login-container">
         <div class="container">
         <h1>Login</h1>
-        <form id="loginForm" hx-post="/log-in" hx-target="#login-result">
+        <form id="loginForm" hx-post="/log-in" hx-target="body">
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="username" name="username" placeholder="name@example.com" required>
                 <label for="username">Username</label>
@@ -37,6 +37,24 @@
 
     <!-- Your other HTML content for the login page -->
     <script src="htmx.min.js"></script>
+    <script src="js.cookie.min.js"></script>
+    <script>
+
+document.body.addEventListener("access_token", function(evt){
+    alert('Login Successful!');
+});
+//     htmx.on('htmx:afterOnLoad', function (event) {
+//     // Get the response text from the event detail
+//     const responseText = event.detail.value;
+//     console.log(responseText)
+//     // Check if the response contains "Login Successful"
+//     if (responseText.includes("Login successful")) {
+//         // Update the content of the "login-result" div or perform any other action
+//         const loginResultDiv = document.getElementById("login-result");
+//         loginResultDiv.innerHTML = "Login was successful!";
+//     }
+// });
+    </script>
     <!-- Your custom JavaScript scripts if needed -->
 </body>
 </html>

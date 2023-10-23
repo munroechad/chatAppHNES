@@ -68,8 +68,17 @@ router.post('/log-in', async (req, res) => {
             console.log(expirationTimestamp)
             const token = await AuthOperations.generateAndInsertToken(userId, purpose, expirationTimestamp);
 
-            // Return the token or perform other actions as needed
-            res.status(200).json({ token });
+            // Return the token or perform other actions as needed\
+            res
+            .status(201)
+            .cookie('access_token', 'Bearer ' + token, {
+                expires: new Date(Date.now() + 12 * 3600000) // cookie will be removed after 8 hours
+            })
+            .redirect(301,'/')
+           
+
+            
+           
         } else {
             res.status(401).send('Authentication failed');
         }
